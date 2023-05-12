@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet("/RegisterCustomerServlet")
+@WebServlet("/add-customer")
 public class AddCustomer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,15 +22,15 @@ public class AddCustomer extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         String name = request.getParameter("name");       // input name="title" del formulario
-        String surname = request.getParameter("surname");
         String dni = request.getParameter("dni");
-        String password = request.getParameter("password");
-        String wallet = request.getParameter("wallet");
-
+        String phone_number = request.getParameter("phone_number");
 
         Database database = new Database();
         CustomerDao customerDao = new CustomerDao(database.getConnection());
-        Customer customer = new Customer(name, surname, dni, password, Double.parseDouble(wallet));
+        Customer customer = new Customer();
+        customer.setName(name);
+        customer.setDni(dni);
+        customer.setPhone_number(phone_number);
         try{
             response.sendRedirect("login.jsp");
             if (customerDao.findByDni(dni).isPresent()){
@@ -41,10 +41,8 @@ public class AddCustomer extends HttpServlet {
                 out.println("<div class='alert alert-success' role='alert'>The user has been successfully registered </div>");
 
             }
-        }catch (SQLException sqle){
+        }catch (SQLException | CustomerAlreadyExistsException sqle){
             sqle.printStackTrace();
-        }catch (CustomerAlreadyExistsException caee){
-            caee.printStackTrace();
         }
     }
 }

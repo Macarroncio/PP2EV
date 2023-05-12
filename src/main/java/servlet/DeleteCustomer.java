@@ -22,7 +22,7 @@ public class DeleteCustomer extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         Customer currentUser = (Customer) request.getSession().getAttribute("currentUser");
-        String dniCustomer = request.getParameter("customerDni");
+        int id = Integer.parseInt(request.getParameter("customerId"));
         if (currentUser == null) {
             response.sendRedirect("login.jsp");
         }
@@ -31,8 +31,8 @@ public class DeleteCustomer extends HttpServlet {
             Database db = new Database();
             Connection connection = db.getConnection();
             CustomerDao customerDao = new CustomerDao(connection);
-            customerDao.delete(dniCustomer);
-
+            customerDao.delete(id);
+            //todo hay que renombrar las redirecciones
             response.sendRedirect("customerList.jsp");
         }catch (SQLException sqle){
             out.println("<div class='alert alert-danger' role='alert'>Problems encountered while adding this travel</div>");

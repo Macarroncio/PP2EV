@@ -15,20 +15,20 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 
 
-@WebServlet("/delete-travel")
+@WebServlet("/delete-book")
 public class DeleteBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        String travelDestination = request.getParameter("travelDestination");
+        String bookIsbn = request.getParameter("bookIsbn");
 
         Database db = new Database();
         Connection connection = db.getConnection();
         BookDao bookDao = new BookDao(connection);
-        bookDao.delete(travelDestination);
-
+        bookDao.delete(bookIsbn);
+//todo hay que renombrar las redirecciones
         response.sendRedirect("index.jsp");
     }
 }

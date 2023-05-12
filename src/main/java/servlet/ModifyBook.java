@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet("/ModifyTravel")
-public class ModifyTravel extends HttpServlet {
+@WebServlet("/modify-book")
+public class ModifyBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -27,16 +27,18 @@ public class ModifyTravel extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
 
-        String destination = request.getParameter("destination");
-        String newDestination = request.getParameter("newdestination");
-        String newPrice = request.getParameter("newprice");
+        String isbn = request.getParameter("isbn");
 
-        Book book = new Book(newDestination, Double.parseDouble(newPrice));
+        String newTitle = request.getParameter("newTitle");
+        String newAuthor = request.getParameter("newAuthor");
+        String newGenre = request.getParameter("newGenre");
+
+        Book book = new Book(isbn, newTitle, newAuthor, newGenre);
 
         Database database = new Database();
         BookDao bookDao = new BookDao(database.getConnection());
         try {
-             bookDao.modify(destination, book);
+             bookDao.modify(isbn, book);
              out.println("<div class='alert alert-success' role='alert'>Successfully modified</div>");
 
         } catch (BookAlreadyExistsException baee) {
