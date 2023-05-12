@@ -51,7 +51,7 @@
                     <configuration>
                         <url>http://localhost:8081/manager/text</url>
                         <server>tomcat7</server>
-                        <path>/Adrian_Romero_AA_2ev</path>
+                        <path>/PracticasPresenciales2EV</path>
                         <username>tomcat</username>
                         <password>tomcat</password>
                         <update>true</update>
