@@ -7,6 +7,6 @@ public class BookAlreadyExistsException extends Exception {
     }
 
     public BookAlreadyExistsException() {
-        super("Travel already exists");
+        super("Book already exists");
     }
 }

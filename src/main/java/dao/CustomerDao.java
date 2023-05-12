@@ -21,15 +21,14 @@ public class CustomerDao {
 
 
     public void add(Customer customer) throws SQLException, CustomerAlreadyExistsException {
-        String sql = "INSERT INTO CUSTOMERS (id, name, dni, phone_number) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO CUSTOMERS (name, dni, phone_number) VALUES (?, ?, ?)";
         if (existCustomer(customer.getId()))
             throw new CustomerAlreadyExistsException("This customer already exists");
 
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, autoincremental());
-        statement.setString(2, customer.getName());
-        statement.setString(3, customer.getDni());
-        statement.setString(4, customer.getPhone_number());
+        statement.setString(1, customer.getName());
+        statement.setString(2, customer.getDni());
+        statement.setString(3, customer.getPhone_number());
 
         statement.executeUpdate();
     }
@@ -85,7 +84,7 @@ public class CustomerDao {
         Customer customer = null;
 
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, dni);
+        statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
 
@@ -103,39 +102,6 @@ public class CustomerDao {
         Optional<Customer> customer = findById(id);
         return customer.isPresent();
     }
-    private int autoincremental() throws SQLException {
-        String sql = "SELECT COUNT (*) as autocount FROM CUSTOMERS";
-        int autoincremental;
-
-        PreparedStatement statement = connection.prepareStatement(sql);
-        ResultSet resultSet = statement.executeQuery();
-        resultSet.next();
-        autoincremental = resultSet.getInt("autocount");
-        return autoincremental++;
-    }
-    public  Optional<Customer> login(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM customers WHERE dni = ? AND c_password = ?";
-        Customer user = null;
-
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, username);
-        statement.setString(2, password);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            user = fromResultSet(resultSet);
-        }
-
-        return Optional.ofNullable(user);
-    }
-    public Customer fromResultSet(ResultSet resultSet) throws SQLException {
-        Customer user = new Customer();
-        user.setId(resultSet.getInt("id_customer"));
-        user.setName(resultSet.getString("c_name"));
-        user.setDni(resultSet.getString("dni"));
-
-        return user;
-    }
-
 }
 
 

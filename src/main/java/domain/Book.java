@@ -6,7 +6,7 @@ public class Book {
     private String title;
     private String author;
     private String genre;
-    private List<Purchase> purchases;
+
 
     public Book (String isbn, String title, String author, String genre) {
         this.isbn = isbn;

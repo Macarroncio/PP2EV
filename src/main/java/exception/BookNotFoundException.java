@@ -6,6 +6,6 @@ public class BookNotFoundException extends Exception {
     }
 
     public BookNotFoundException() {
-        super("domain.Travel Not Found");
+        super("domain.Book Not Found");
     }
 }

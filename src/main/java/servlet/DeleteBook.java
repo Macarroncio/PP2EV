@@ -16,7 +16,7 @@ import java.sql.Connection;
 
 
 @WebServlet("/delete-travel")
-public class DeleteTravelServlet extends HttpServlet {
+public class DeleteBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");

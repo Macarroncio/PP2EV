@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet("/AddTravel")
-public class AddTravel extends HttpServlet {
+public class AddBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
