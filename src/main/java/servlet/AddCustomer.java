@@ -33,7 +33,7 @@ public class AddCustomer extends HttpServlet {
         customer.setPhone_number(phone_number);
         try{
 
-            if (customerDao.findByDni(dni).isPresent()){
+            if (customerDao.findById(customer.getId()).isPresent()){
                 out.println("<div class='alert alert-danger' role='alert'>This customer's DNI is already registered</div>");
             }else{
                 customerDao.add(customer);
