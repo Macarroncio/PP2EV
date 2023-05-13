@@ -11,7 +11,7 @@ Utilizando botstrap para navegador, listado y footer
 
 Utiliza modelo responsive para visualización en diferentes modelos de dispositivos
 
-Base de datos realizada a traves de SQLdeveloper junto a los modelos relacionales
+Base de datos realizada a traves de SQLdeveloper junto a los modelos relacionales en Draw.io
 
 Proyecto realizado en lenguaje JAVA y Javascript junto con Maven como herramienta de apoyo
 
