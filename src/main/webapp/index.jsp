@@ -46,6 +46,7 @@
             </div>
             <%
                 }
+                database.close();
             }catch(SQLException sqle){}
 
             %>
@@ -53,17 +54,17 @@
         </section>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("form").on("submit", function(event) {
+                $("form").on("submit", "#add_form", function(event) {
                     event.preventDefault();
                     var formValue = $(this).serialize();
-                    $.post("AddBook", formValue, function(data) {
+                    $.post("", formValue, function(data) {
                         $("#result").html(data);
                     });
                 });
             });
         </script>
         <section class="border border-1 p-5 rounded">
-            <form>
+            <form id="add_book">
                 <div class="row mb-3">
                     <label for="isbn" class="col-sm-2 col-form-label">ISBN</label>
                     <div class="col-sm-10">
@@ -98,6 +99,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Register book</button>
             </form>
+            <div id="result"></div>
         </section>
     </main>
 
