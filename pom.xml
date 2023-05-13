@@ -51,7 +51,7 @@
                     <configuration>
                         <url>http://localhost:8081/manager/text</url>
                         <server>tomcat7</server>
-                        <path>/PracticasPresenciales2EV</path>
+                        <path>/library</path>
                         <username>tomcat</username>
                         <password>tomcat</password>
                         <update>true</update>

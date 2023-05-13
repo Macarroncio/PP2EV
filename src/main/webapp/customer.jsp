@@ -1,103 +1,82 @@
-<%@ page language="java"
-    contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-%>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="dao.Database" %>
 <%@ page import="dao.CustomerDao" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="domain.Customer" %>
-<%@ page import="java.util.Optional" %>
-<%
-Connection connection;
-Database db = new Database();
-connection = db.getConnection();
-CustomerDao customerDao = new CustomerDao(connection);
-String customerDni = request.getParameter("dni");
-Optional<Customer> optionalCustomer = customerDao.findByDni(customerDni);
-Customer customer = optionalCustomer.orElse(null);
-int id = customer.getId();
-String name = customer.getName();
-String surname = customer.getSurname();
-String password = customer.getPassword();
-double wallet = customer.getWallet();
-%>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
+<%@include file="includes/header.jsp"%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Detalles del cliente</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <style>
-        .card-body {
-          white-space: nowrap;
-        }
-      </style>
-</head>
-<body>
-  <h1 class="text-center">Detalle del cliente</h1>
-  <div class="container-fluid d-flex align-items-center justify-content-center vh-100">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <h5>ID:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= id %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Nombre: </h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= name %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Apellido:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= surname %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>DNI:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= customerDni %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Password:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= password %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Dinero $:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= wallet %></h5>
-          </div>
-        </div>
-            <form action="delete-customer" method="POST">
-                      <input type="hidden" name="customerDni" value="<%= customerDni %>">
-                      <button type="submit" class="btn btn-primary">Borrar</button>
+
+    <main class="container">
+        <section class="mb-5">
+            <div class="row border-bottom border-2">
+                <div class="col-3 col-md-2">DNI</div>
+                <div class="col-6 col-md-2">Name</div>
+                <div class="col-3 col-md-2">Phone</div>
+            </div>
+             <%
+                 Database database = new Database();
+                 CustomerDao customerDao = new CustomerDao(database.getConnection());
+                 try{
+                     List<Customer> customersList = customerDao.showAll();
+                     for (Customer customer : customerDao.showAll()) {
+             %>
+            <div class="row mb-1">
+                <div class="col-3 col-md-2 text-truncate"><%= customer.getDni() %></div>
+                <div class="col-6 col-md-2 text-truncate"><%= customer.getName() %></div>
+                <div class="col-3 col-md-2 text-truncate"><%= customer.getPhone_number() %></div>
+                <div class="col-12 col-md-2 ms-md-2 text-truncate mt-2 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pen" viewBox="0 0 16 16">
+                            <path
+                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z">
+                            </path>
+                        </svg>
+
+                    </button>
+                    <button type="button" class="btn btn-outline-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-octagon-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z">
+                            </path>
+                        </svg>
+
+                    </button>
+                </div>
+            </div>
+            <%
+                 }
+            }catch(SQLException sqle){}
+
+            %>
+        </section>
+
+        <section>
+            <form>
+                <div class="row mb-3">
+                    <label for="inputDni" class="col-sm-2 col-form-label">DNI</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputDni" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputName" class="col-sm-2 col-form-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputPhone" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register book</button>
             </form>
-        </div>
-      </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        </section>
+    </main>
 </body>
+
 </html>

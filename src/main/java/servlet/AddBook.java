@@ -15,17 +15,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet("/add-book")
+@WebServlet("")
 public class AddBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        Customer currentUser = (Customer) request.getSession().getAttribute("currentUser");
+       /* Customer currentUser = (Customer) request.getSession().getAttribute("currentUser");
         if (currentUser == null || !currentUser.getDni().equals("111111111")) {
             response.sendRedirect("login.jsp");
-        }
+        }*/
 
         String isbn = request.getParameter("isbn");       // input name="title" del formulario
         String title = request.getParameter("title");
