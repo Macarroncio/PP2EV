@@ -22,16 +22,11 @@ public class ModifyBook extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        Customer currentUser = (Customer) request.getSession().getAttribute("currentUser");
-        if (currentUser == null || !currentUser.getDni().equals("111111111")) {
-            response.sendRedirect("login.jsp");
-        }
-
         String isbn = request.getParameter("isbn");
 
-        String newTitle = request.getParameter("newTitle");
-        String newAuthor = request.getParameter("newAuthor");
-        String newGenre = request.getParameter("newGenre");
+        String newTitle = request.getParameter("title");
+        String newAuthor = request.getParameter("author");
+        String newGenre = request.getParameter("genre");
 
         Book book = new Book(isbn, newTitle, newAuthor, newGenre);
 
@@ -41,11 +36,12 @@ public class ModifyBook extends HttpServlet {
              bookDao.modify(isbn, book);
              out.println("<div class='alert alert-success' role='alert'>Successfully modified</div>");
 
+
         } catch (BookAlreadyExistsException baee) {
             out.println("<div class='alert alert-danger' role='alert'>Travel already exists!!!</div>");
             baee.printStackTrace();
         } catch (SQLException sqle) {
-            out.println("<div class='alert alert-danger' role='alert'>Problems encountered while adding this travel</div>");
+            out.println("<div class='alert alert-danger' role='alert'> Problems encountered while adding this travel</div>");
             sqle.printStackTrace();
         }
     }

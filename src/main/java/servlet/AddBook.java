@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet("")
+@WebServlet("/add-book")
 public class AddBook extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,6 +31,7 @@ public class AddBook extends HttpServlet {
         String title = request.getParameter("title");
         String author = request.getParameter("author");
         String genre = request.getParameter("genre");
+
 
         Book book = new Book(isbn, title, author, genre);
 

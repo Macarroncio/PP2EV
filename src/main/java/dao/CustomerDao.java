@@ -22,7 +22,7 @@ public class CustomerDao {
 
     public void add(Customer customer) throws SQLException, CustomerAlreadyExistsException {
         String sql = "INSERT INTO CUSTOMERS (name, dni, phone_number) VALUES (?, ?, ?)";
-        if (existCustomer(customer.getDni()))
+        if (existCustomer(customer.getId()))
             throw new CustomerAlreadyExistsException("This customer already exists");
 
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -79,12 +79,12 @@ public class CustomerDao {
         return customers;
     }
 
-    public Optional<Customer> findByDni(String dni) throws SQLException {
-        String sql = "SELECT * FROM customers WHERE dni = ?";
+    public Optional<Customer> findById(int id) throws SQLException {
+        String sql = "SELECT * FROM customers WHERE id = ?";
         Customer customer = null;
 
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, dni);
+        statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
 
@@ -98,8 +98,8 @@ public class CustomerDao {
         return Optional.ofNullable(customer);
     }
 
-    private boolean existCustomer(String dni) throws SQLException {
-        Optional<Customer> customer = findByDni(dni);
+    private boolean existCustomer(int id) throws SQLException {
+        Optional<Customer> customer = findById(id);
         return customer.isPresent();
     }
 }

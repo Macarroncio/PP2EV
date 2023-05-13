@@ -6,8 +6,7 @@ public class Customer {
     private String dni;
     private String phone_number;
 
-    public Customer(int id, String name, String dni, String phone_number) {
-        this.id = id;
+    public Customer(String name, String dni, String phone_number) {
         this.name = name;
         this.dni = dni;
         this.phone_number = phone_number;

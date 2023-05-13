@@ -15,14 +15,13 @@ Connection connection;
 Database db = new Database();
 connection = db.getConnection();
 CustomerDao customerDao = new CustomerDao(connection);
-String customerDni = request.getParameter("dni");
-Optional<Customer> optionalCustomer = customerDao.findByDni(customerDni);
+String customerId = request.getParameter("customerId");
+int id = Integer.parseInt(customerId);
+Optional<Customer> optionalCustomer = customerDao.findById(id);
 Customer customer = optionalCustomer.orElse(null);
-int id = customer.getId();
 String name = customer.getName();
-String surname = customer.getSurname();
-String password = customer.getPassword();
-double wallet = customer.getWallet();
+String dni = customer.getDni();
+String phone_number = customer.getPhone_number();
 %>
 
 <!DOCTYPE html>
@@ -52,7 +51,7 @@ double wallet = customer.getWallet();
         </div>
         <div class="row">
           <div class="col-md-6">
-            <h5>Nombre: </h5>
+            <h5>Name: </h5>
           </div>
           <div class="col-md-6">
             <h5><%= name %></h5>
@@ -60,44 +59,23 @@ double wallet = customer.getWallet();
         </div>
         <div class="row">
           <div class="col-md-6">
-            <h5>Apellido:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= surname %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
             <h5>DNI:</h5>
           </div>
           <div class="col-md-6">
-            <h5><%= customerDni %></h5>
+            <h5><%= dni %></h5>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <h5>Password:</h5>
+            <h5>Phone:</h5>
           </div>
           <div class="col-md-6">
-            <h5><%= password %></h5>
+            <h5><%= phone_number %></h5>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Dinero $:</h5>
-          </div>
-          <div class="col-md-6">
-            <h5><%= wallet %></h5>
-          </div>
-        </div>
-            <form action="delete-customer" method="POST">
-                      <input type="hidden" name="customerDni" value="<%= customerDni %>">
-                      <button type="submit" class="btn btn-primary">Borrar</button>
-            </form>
-        </div>
+       </div>
       </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>

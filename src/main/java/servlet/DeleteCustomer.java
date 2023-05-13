@@ -17,23 +17,21 @@ import java.sql.SQLException;
 @WebServlet("/delete-customer")
 public class DeleteCustomer extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        Customer currentUser = (Customer) request.getSession().getAttribute("currentUser");
+
         int id = Integer.parseInt(request.getParameter("customerId"));
-        if (currentUser == null) {
-            response.sendRedirect("login.jsp");
-        }
+
         try{
 
             Database db = new Database();
             Connection connection = db.getConnection();
             CustomerDao customerDao = new CustomerDao(connection);
             customerDao.delete(id);
-            //todo hay que renombrar las redirecciones
-            response.sendRedirect("customerList.jsp");
+
+            response.sendRedirect("customer.jsp");
         }catch (SQLException sqle){
             out.println("<div class='alert alert-danger' role='alert'>Problems encountered while adding this travel</div>");
             sqle.printStackTrace();

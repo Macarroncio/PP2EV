@@ -32,9 +32,8 @@ public class AddCustomer extends HttpServlet {
         customer.setDni(dni);
         customer.setPhone_number(phone_number);
         try{
-            response.sendRedirect("login.jsp");
-            if (customerDao.findByDni(dni).isPresent()){
 
+            if (customerDao.findByDni(dni).isPresent()){
                 out.println("<div class='alert alert-danger' role='alert'>This customer's DNI is already registered</div>");
             }else{
                 customerDao.add(customer);

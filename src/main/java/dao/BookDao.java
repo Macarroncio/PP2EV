@@ -33,7 +33,7 @@ public class BookDao {
 
     public boolean delete(String isbn) {
         try {
-            String sql = "DELETE FROM book WHERE isbn = ?";
+            String sql = "DELETE FROM books WHERE isbn = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, isbn);
             int rows = statement.executeUpdate();
@@ -51,13 +51,14 @@ public class BookDao {
         if (existBook(book.getIsbn()))
             throw new BookAlreadyExistsException("This book already exists");
 
-        String sql = "UPDATE books SET isbn = ?,  title = ?, author = ?, genre = ?, WHERE isbn = ?";
+        String sql = "UPDATE books SET title = ?, author = ?, genre = ? WHERE isbn = ?";
 
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, book.getIsbn());
-        statement.setString(2, book.getTitle());
-        statement.setString(3, book.getAuthor());
-        statement.setString(4, book.getGenre());
+
+        statement.setString(1, book.getTitle());
+        statement.setString(2, book.getAuthor());
+        statement.setString(3, book.getGenre());
+        statement.setString(4, book.getIsbn());
 
         int rows = statement.executeUpdate();
         return rows == 1;
@@ -79,6 +80,24 @@ public class BookDao {
         }
 
         return books;
+    }
+
+    public Optional<Book> findByIsbn(String isbn) throws SQLException {
+        String sql = "SELECT * FROM books WHERE isbn = ?";
+        Book book = null;
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, isbn);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            book = new Book();
+            book.setIsbn(resultSet.getString("isbn"));
+            book.setTitle(resultSet.getString("title"));
+            book.setAuthor(resultSet.getString("author"));
+            book.setGenre(resultSet.getString("genre"));
+        }
+
+        return Optional.ofNullable(book);
     }
 
     public Optional<Book> findByTitle(String title) throws SQLException {
