@@ -50,8 +50,13 @@
             <div class="row mb-3">
                             <label for="phone_number" class="col-sm-2 col-form-label">Phone</label>
                             <div class="col-sm-10">
-                                <input type="text" name="phone_number" class="form-control" id="phone_number" value="<%= customer.getPhone_number() %>"/>
-                            </div>
+                                <input type="text" name="phone_number" class="form-control" id="phone_number" value="<%= customer.getPhone_number
+
+
+                                sa() %>"/>
+                            </divAD>
+
+
                         </div>
             <button type="submit" class="btn btn-primary">Save changes</button>
             <% }catch(SQLException sqle){}
